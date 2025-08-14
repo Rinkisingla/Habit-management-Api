@@ -33,37 +33,38 @@ import jwt from "jsonwebtoken"
      if(!this.isModified("password"))return next();
      const salt = await bcrypt.genSalt(10);
       this.password = await bcrypt.hash(this.password, salt)
+      next();
   })
-  UserSchema.methods.ispasswordvalid = async function (password) {
+  UserSchema.methods.isPasswordValid = async function (password) {
     return await bcrypt.compare(password,this.password)
   }
-  UserSchema.methods.generateaccesstoken = function () {
+  UserSchema.methods.generateAccessToken = function () {
     return jwt.sign(
         {
             id: this._id,
             username:this.username,
-            fullname:this.fullname,
-            email:this.email
+            
         },
-        process.env.ACCESS_TOKEN_SECRET,
+        process.env.Access_Token_SecretKey,
         {
             expiresIn: process.env.AccessTokenExpireIn
         }
 
     )
   }
-  UserSchema.methods.generaterefreshtoken = function () {
+  UserSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
             id: this._id,
             
         },
-        process.env.REFRESH_TOKEN_SECRET,
+        process.env.Refresh_Token_SecretKey,
         {
             expiresIn: process.env.RefreshTokenExpireIn
         }
 
     )
   }
-   export const User = mongoose.model("User", UserSchema)
+   const User = mongoose.model("User", UserSchema);
+export default User;
    
