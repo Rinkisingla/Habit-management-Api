@@ -2,10 +2,11 @@
 import User from "../models/Usermodels.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import asyncHandler from "../utils/AsyncHandler.js"
+import jwt from "jsonwebtoken"
 
 const verifyjwt = asyncHandler(async(req, res, next)=>{
     try {
-         const token =  req.cookies?.accessToken || req.header("Authorization")?.replace(/^Bearer\s+/i, "").trim();
+         const token =  req.cookies?.Accesstoken|| req.header("Authorization")?.replace(/^Bearer\s+/i, "").trim();
           if(!token)
           {
             throw new ApiError(400, "TOKEN NOT FOUND");
@@ -15,7 +16,7 @@ const verifyjwt = asyncHandler(async(req, res, next)=>{
             {
                 throw new ApiError(409, "Token did not matched");
             }
-             const user =await  findById(decodedToken.id);
+             const user =await  User.findById(decodedToken.id);
             if(!user){
                  throw new ApiError(404, "User not found");
             }
