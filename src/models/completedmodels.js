@@ -5,10 +5,15 @@ import mongoose, {Schema, Types} from "mongoose"
         ref:"Habit",
         required:true
     },
-    date:{
-        type:Date,
-        default:Date.now,
-        required:true
+    date: { 
+        type: Date, 
+        required: true 
+    },
+    createdAt: { 
+        type: Date, 
+        default: Date.now 
     }
+
  }, {timestamps:true})
+     CompletedSchema.index({ habitId: 1, date: 1 }, { unique: true });
   export  const Completed = mongoose.model("Completed",CompletedSchema )

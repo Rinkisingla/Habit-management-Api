@@ -10,7 +10,7 @@ import mongoose from "mongoose"
 // PATCH /habits/:id → Edit habit
 // DELETE /habits/:id → Delete habit
   const newhabit= asyncHandler(async(req, res)=>{
-            console.log("req.user:", req.user);
+            
           const payload = {
              userId : req.user.id,
                ... req.body
@@ -68,5 +68,16 @@ import mongoose from "mongoose"
 
 
   })
-
-export  {newhabit, allHabit, deletehabits}
+ const  gethabit= asyncHandler(async(req, res)=>{
+     const id= req.user.id
+     if(!mongoose.Types.ObjectId.isValid(id)){
+       throw new ApiError(401, "Enter the valid id");
+     }
+      const getallhabits = await Habit.find({userId:id})
+      console.log(getallhabits);
+      if(getallhabits.length===0){
+          throw new ApiError(404, "there is error in fetching all the habits of the user");
+      }
+      res.status(200).json(new ApiResponse(200,getallhabits," All th habits of the user are fetched"));
+ }) 
+export  {newhabit, allHabit, deletehabits, gethabit}
