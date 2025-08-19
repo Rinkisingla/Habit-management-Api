@@ -7,7 +7,8 @@ import mongoose, {Schema, Types} from "mongoose"
     },
     date: { 
         type: Date, 
-        required: true 
+        required: true ,
+         set: (val) => new Date(new Date(val).setHours(0, 0, 0, 0)),
     },
     createdAt: { 
         type: Date, 
@@ -15,5 +16,5 @@ import mongoose, {Schema, Types} from "mongoose"
     }
 
  }, {timestamps:true})
-     CompletedSchema.index({ habitId: 1, date: 1 }, { unique: true });
+   CompletedSchema.index({ habitId: 1, date: 1 }, { unique: true });
   export  const Completed = mongoose.model("Completed",CompletedSchema )

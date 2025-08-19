@@ -1,6 +1,6 @@
 import asyncHandler from "../utils/AsyncHandler.js"
  import ApiError from "../utils/ApiError.js"
-import User from "../models/Usermodels.js"
+
 import ApiResponse from "../utils/ApiResponse.js"
 import { Habit } from "../models/Habitmodels.js"
 import { habitvalidation } from "../validation/habitvalidation.js"
