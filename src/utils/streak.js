@@ -1,5 +1,11 @@
-// Example utility for streak
 function calculateStreaks(completions, goalType) {
+  if (!completions.length) return { currentStreak: 0, longestStreak: 0 };
+
+  // Ensure ascending order
+  completions = completions.sort((a, b) => new Date(a) - new Date(b));
+
+  const unit = goalType === "daily" ? "day" : goalType === "weekly" ? "week" : "month";
+
   let currentStreak = 0, longestStreak = 0;
   let prev = null;
 
@@ -7,7 +13,7 @@ function calculateStreaks(completions, goalType) {
     if (!prev) {
       currentStreak = 1;
     } else {
-      let diff = dayjs(date).diff(dayjs(prev), goalType === "daily" ? "day" : goalType === "weekly" ? "week" : "month");
+      const diff = dayjs(date).diff(dayjs(prev), unit);
       if (diff === 1) {
         currentStreak++;
       } else {
@@ -19,5 +25,6 @@ function calculateStreaks(completions, goalType) {
   });
 
   longestStreak = Math.max(longestStreak, currentStreak);
+
   return { currentStreak, longestStreak };
 }
